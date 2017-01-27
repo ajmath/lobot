@@ -4,21 +4,22 @@
 
 Based on [johnagan/serverless-slack-app](https://github.com/johnagan/serverless-slack-app)
 
-Steps for getting started on developing/deploying the chatbot:
+## Steps for development/deployment
 1. Install serverless
 ```
 npm install -g serverless
 ```
-2. Clone this repo and deploy (assuming aws credentials available via environment)
+2. Clone this repo and deploy with correctly configured [AWS Credentials](https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/credentials.md)
 ```
 git clone git@github.com:ajmath/lobot.git
 cd lobot
 npm install
 serverless deploy
 ```
-3. Follow steps at [johnagan/serverless-slack-app](https://github.com/johnagan/serverless-slack-app#create-a-slack-app) on creating a slack app.  Additionally, you'll need to:
+3. Follow steps at [johnagan/serverless-slack-app](https://github.com/johnagan/serverless-slack-app#create-a-slack-app) on creating a slack app and authenticating.  Additionally, you'll need to:
+  * Copy `env/examples.env` to something like `env/dev.env` and place
+    your slack tokens there.  Before running `serverless deploy`,
+    you'll need to `source env/dev.env`
   * Add bot event subscription to message.channels
   * Provide POST endpoint in the slack event subscription configuration page
   * Click the "Enable Events" checkbox
-4. Copy `env/examples.env` to something like `env/dev.env` and populate with slack tokens found when creating the app
-5. Deploy using `serverless deploy`

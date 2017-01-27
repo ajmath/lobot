@@ -1,42 +1,44 @@
-const axios = require("axios");
+const axios = require('axios');
 
 const challongeToken = process.env.CHALLONGE_TOKEN;
 const challongeUser = 'ajmath';
 
-const getApiUrl = (division) => `https://${challongeUser}:${challongeToken}`
-  + `@api.challonge.com/v1/tournaments/xwingvassal-${division}`;
+const getApiUrl = (division) => `https://${challongeUser}:${challongeToken}` +
+  `@api.challonge.com/v1/tournaments/xwingvassal-${division}`;
 
 const getUsernameMap = (division) => {
   return axios.get(`${getApiUrl(division)}/participants.json`).then(resp => {
     const users = {};
-    if (resp.status != 200) {
+    if (resp.status !== 200) {
       return users;
     }
 
     resp.data.map(r => r.participant).forEach(r => {
       const userId = r.group_player_ids[0];
+      const test = {};
       users[userId] = {
+        ...test,
         name: r.display_name,
         photo: r.attached_participatable_portrait_url,
-        seed: r.seed,
-      }
+        seed: r.seed
+      };
 
-      if (users[userId].photo && users[userId].photo.startsWith("//s3")) {
+      if (users[userId].photo && users[userId].photo.startsWith('//s3')) {
         users[userId].photo = `https:${users[userId].photo}`;
       }
     });
     return users;
   });
-}
+};
 
 const getDivsionMatches = (division) => {
   return getUsernameMap(division).then(users => {
     return axios.get(`${getApiUrl(division)}/matches.json`).then(resp => {
-      if (resp.status != 200) {
+      if (resp.status !== 200) {
         return {};
       }
       return resp.data.map(r => r.match)
-        .filter(r => r.state === "complete")
+        .filter(r => r.state === 'complete')
         .map(rawMatch => {
           const match = {
             player1_id: rawMatch.player1_id,
@@ -49,14 +51,14 @@ const getDivsionMatches = (division) => {
             group_id: rawMatch.group_id,
             winner_id: rawMatch.winner_id,
             player1_group: String.fromCharCode(65 + users[rawMatch.player1_id].seed / 10),
-            player2_group: String.fromCharCode(65 + users[rawMatch.player2_id].seed / 10),
+            player2_group: String.fromCharCode(65 + users[rawMatch.player2_id].seed / 10)
           };
           return match;
         }
       );
     });
-  })
-}
+  });
+};
 
 const newScore = (name, group) => {
   return {
@@ -65,7 +67,7 @@ const newScore = (name, group) => {
     loss: 0,
     tie: 0,
     name: name,
-    group: group,
+    group: group
   };
 };
 
@@ -93,7 +95,7 @@ const getStats = (division) => {
     });
     return userScores;
   });
-}
+};
 
 const getRankings = (division, group) => {
   return getStats(division).then(userStats => {
@@ -116,10 +118,9 @@ const getRankings = (division, group) => {
   });
 };
 
-
 module.exports = {
   getDivsionMatches: getDivsionMatches,
   getUsernameMap: getUsernameMap,
   getStats: getStats,
-  getRankings: getRankings,
-}
+  getRankings: getRankings
+};

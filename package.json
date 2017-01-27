@@ -15,15 +15,22 @@
     "template",
     "serverless"
   ],
+  "scripts": {
+    "lint": "semistandard --verbose | snazzy"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/johnagan/serverless-slack-app.git"
+    "url": "https://github.com/ajmath/lobot.git"
   },
   "bugs": {
-    "url": "https://github.com/johnagan/serverless-slack-app/issues"
+    "url": "https://github.com/ajmath/lobot/issues"
   },
   "dependencies": {
-    "serverless-slack": "^1.0.25",
-    "axios": "^0.15.3"
+    "axios": "^0.15.3",
+    "serverless-slack": "^1.0.25"
+  },
+  "devDependencies": {
+    "semistandard": "^9.2.1",
+    "snazzy": "^6.0.0"
   }
 }

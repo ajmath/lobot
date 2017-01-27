@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const challonge = require('../challonge.js')
+const challonge = require('../challonge.js');
 
 challonge.getRankings('innerrim3', 'F').then((res) => {
   console.log(res);
