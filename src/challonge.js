@@ -15,9 +15,7 @@ const getUsernameMap = (division) => {
 
     resp.data.map(r => r.participant).forEach(r => {
       const userId = r.group_player_ids[0];
-      const test = {};
       users[userId] = {
-        ...test,
         name: r.display_name,
         photo: r.attached_participatable_portrait_url,
         seed: r.seed
@@ -97,7 +95,18 @@ const getStats = (division) => {
   });
 };
 
-const getRankings = (division, group) => {
+const sortStats = (stats) => {
+  return stats.concat().sort((a, b) => {
+    if (a.wins < b.wins) {
+      return 1;
+    } else if (a.wins > b.wins) {
+      return -1;
+    }
+    return a.mov > b.mov ? -1 : 1;
+  });
+};
+
+const getDivisionRankings = (division, group) => {
   return getStats(division).then(userStats => {
     var filteredStats = [];
     for (var key in userStats) {
@@ -105,16 +114,7 @@ const getRankings = (division, group) => {
         filteredStats.push(userStats[key]);
       }
     }
-
-    filteredStats.sort((a, b) => {
-      if (a.wins < b.wins) {
-        return -1;
-      } else if (a.wins > b.wins) {
-        return 1;
-      }
-      return a.mov > b.mov ? 1 : -1;
-    });
-    return filteredStats;
+    return sortStats(filteredStats);
   });
 };
 
@@ -122,5 +122,5 @@ module.exports = {
   getDivsionMatches: getDivsionMatches,
   getUsernameMap: getUsernameMap,
   getStats: getStats,
-  getRankings: getRankings
+  getDivisionRankings: getDivisionRankings
 };
