@@ -17,9 +17,7 @@ npm install
 serverless deploy
 ```
 3. Follow steps at [johnagan/serverless-slack-app](https://github.com/johnagan/serverless-slack-app#create-a-slack-app) on creating a slack app and authenticating.  Additionally, you'll need to:
-  * Copy `env/examples.env` to something like `env/dev.env` and place
-    your slack tokens there.  Before running `serverless deploy`,
-    you'll need to `source env/dev.env`
+  * Copy `env/example.yml` to `env/dev.yml` and place your secrets there.
   * Add bot event subscription to message.channels
   * Provide POST endpoint in the slack event subscription configuration page
   * Click the "Enable Events" checkbox
