@@ -28,14 +28,14 @@ custom:
   # Log all events to CloudWatch
   slack_enable_logging: true
 
-  # The dynamodb table to store OAuth access data
-  slack_table_name: Teams
-
   # The path used to post Slack events to
   slack_event_path: slack
 
   # The path used to install the Slack App
   slack_install_path: slack
+
+  # Space delimited scopes
+  slack_client_scopes: "bot commands incoming-webhook"
 
   # The path to redirect to after an install
   slack_install_redirect: https://slack.com
@@ -62,7 +62,6 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
   environment:
-    TABLE_NAME: ${self:custom.slack_table_name}
     ENABLE_LOGGING: ${self:custom.slack_enable_logging}
     CLIENT_SCOPES: ${self:custom.slack_client_scopes}
     INSTALL_REDIRECT: ${self:custom.slack_install_redirect}
@@ -72,6 +71,7 @@ provider:
     CHALLONGE_TOKEN: ${self:custom.stage_vars.challonge_token}
     TEAM_ID: ${self:custom.stage_vars.team_id}
     CURRENT_LEAGUE_ID: ${self:custom.stage_vars.current_league_id}
+    TABLE_NAME: ${self:custom.stage_vars.slack_table_name}
 
 
 functions:

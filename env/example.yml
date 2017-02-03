@@ -1,7 +1,8 @@
 ---
-  slack_verification_token: ""
-  slack_client_id: ""
-  slack_client_secret: ""
+  slack_verification_token: "" #from slack bot page
+  slack_client_id: "" # from slack bot page
+  slack_client_secret: "" #from slack bot page
   challonge_token: ""
-  team_id: ""
-  current_league_id: ""
+  team_id: "" # Slack team id used for escrow notification
+  current_league_id: "6" # for queries to list juggler
+  slack_table_name: "Teams" # should be different for each stage in a single AWS environment
