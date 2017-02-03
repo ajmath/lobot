@@ -2,48 +2,69 @@
 
 const Table = require('cli-table');
 
-const channelMap = require('./channel-mappings.js');
-const challonge = require('./challonge.js');
 const slackHelper = require('./slack-helper.js');
+const juggler = require('./juggler.js');
 
-const getMapping = (bot) => {
+module.exports.respondWithGroupStandings = (bot, msg) => {
   return slackHelper.getChannelName(bot)
-    .then(name => {
-      const mapping = channelMap[name];
-      if (!mapping) {
-        throw new Error(`I don't know anything about channel: ${name}`);
+    .then(juggler.tierRankingsForChannel)
+    .then(rankings => {
+      const division = rankings.division_ranking
+        .find(r => r.division_challonge_name === rankings.channel_info.division);
+      if (!division) {
+        throw new Error(`could not find division: ${rankings.channel_info.division}`);
       }
-      return mapping;
+      const table = new Table({
+        head: ['Rank', 'Name', 'Win', 'Loss', 'Draws', 'MOV'],
+        colors: false
+      });
+      division.rankings.forEach((r, i) => table.push([
+        r.rank,
+        r.name,
+        r.wins,
+        r.losses ? r.losses : r.loses,
+        r.draws,
+        r.mov
+      ]));
+      bot.reply({
+        text: '```\n' + table.toString() + '\n```\n'
+      });
+    })
+    .catch(err => {
+      bot.reply({
+        text: `:interrobang: ${err}`
+      });
     });
 };
 
-module.exports.respondWithGroupStandings = (bot) => {
-  return getMapping(bot)
-    .then(mapping => challonge.getDivisionRankings(mapping.division, mapping.group))
+module.exports.respondWithTierStandings = (bot, msg) => {
+  return slackHelper.getChannelName(bot)
+    .then(juggler.tierRankingsForChannel)
     .then(rankings => {
       const table = new Table({
-        head: ['Rank', 'Name', 'Win', 'Loss', 'MOV'],
+        head: ['Rank', 'Name', 'Win', 'Loss', 'Draws', 'MOV', 'Division'],
         colors: false
       });
-      rankings.forEach((r, i) => table.push([ i + 1, r.name, r.win, r.loss, r.mov ]));
+      rankings.tier_ranking.slice(0, 10).forEach((r, i) => {
+        const division = rankings.division_ranking
+          .find(d => d.rankings.some(dr => dr.name === r.name));
+        table.push([
+          r.rank,
+          r.name,
+          r.wins,
+          r.losses,
+          r.draws,
+          r.mov,
+          `${division.division_name} (${division.division_challonge_name})`
+        ]);
+      });
       bot.reply({
         text: '```\n' + table.toString() + '\n```'
       });
-    });
-};
-
-module.exports.respondWithDivisionStandings = (bot) => {
-  return getMapping(bot)
-    .then(mapping => challonge.getDivisionRankings(mapping.division))
-    .then(rankings => {
-      const table = new Table({
-        head: ['Rank', 'Name', 'Win', 'Loss', 'MOV', 'Group'],
-        colors: false
-      });
-      rankings.slice(0, 10)
-        .forEach((r, i) => table.push([ i + 1, r.name, r.win, r.loss, r.mov, r.group ]));
+    })
+    .catch(err => {
       bot.reply({
-        text: '```\n' + table.toString() + '\n```'
+        text: `:interrobang: ${err}`
       });
     });
 };

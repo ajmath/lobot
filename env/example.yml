@@ -3,3 +3,4 @@
   slack_client_id: ""
   slack_client_secret: ""
   challonge_token: ""
+  current_league_id: ""

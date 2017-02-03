@@ -35,9 +35,8 @@ const debug = (parts, msg, bot) => {
 const help = (parts, msg, bot) => {
   bot.reply({
     text: 'How can I be of service to you?\n' +
-      ' * `group` - provide group standings\n' +
-      ' * `division` - provide division standings\n' +
-      ' * `league` - provide league standings\n' +
+      ' * `group|division` - provide group/division standings based on this channel name\n' +
+      ' * `tier` - provide division standings based on this channel name\n' +
       'To run any of these commands, simply type `@lobot <command>`'
   });
 };
@@ -50,8 +49,6 @@ const notImplmented = (bot) => {
 
 // Slash Command handler
 slack.on('message', (msg, bot) => {
-  console.log('got event');
-
   const botId = bot.auth.bot.bot_user_id;
   if (!msg.event.text.startsWith(`<@${botId}>`)) {
     return;
@@ -62,13 +59,14 @@ slack.on('message', (msg, bot) => {
     return;
   }
 
+  console.log(`Processing message: ${msg.event.text} @ ${msg.event.event_ts}`);
   let cmd = parts[1];
   if (cmd === 'help') {
     help(parts, msg, bot);
-  } else if (cmd === 'group') {
-    commands.respondWithGroupStandings(bot);
-  } else if (cmd === 'division') {
-    commands.respondWithDivisionStandings(bot);
+  } else if (cmd === 'division' || cmd === 'group') {
+    commands.respondWithGroupStandings(bot, msg);
+  } else if (cmd === 'tier') {
+    commands.respondWithTierStandings(bot, msg);
   } else if (cmd === 'league') {
     notImplmented(bot);
   } else if (cmd === 'debug') {
