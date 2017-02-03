@@ -70,6 +70,7 @@ provider:
     CLIENT_SECRET: ${self:custom.stage_vars.slack_client_secret}
     VERIFICATION_TOKEN: ${self:custom.stage_vars.slack_verification_token}
     CHALLONGE_TOKEN: ${self:custom.stage_vars.challonge_token}
+    TEAM_ID: ${self:custom.stage_vars.team_id}
     CURRENT_LEAGUE_ID: ${self:custom.stage_vars.current_league_id}
 
 
@@ -105,6 +106,10 @@ functions:
                   Location: integration.response.body.errorMessage
                   Cache-Control: "'no-cache, no-store, must-revalidate'"
 
+  escrow_notify:
+    handler: src/escrow-notify.handler
+    events:
+      - http: POST escrow-notify
 
 resources:
   Resources:
