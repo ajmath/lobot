@@ -27,6 +27,16 @@ const tiers = {
   }
 };
 
+const findPlayerChannel = (player, tier, channels) => {
+  const cleanDivision = player.challonge_division_name.replace(' ', '').toLowerCase();
+  const channelRegex = new RegExp(`${tier}[a-z]-${cleanDivision}`);
+  const channel = channels.find(c => c.name.match(channelRegex));
+  if (!channel) {
+    console.log(`escrow-notify: could not find channel matching ${channelRegex}`);
+  }
+  return channel;
+};
+
 module.exports.handler = (event, context, callback) => {
   let body;
   try {
@@ -61,14 +71,11 @@ module.exports.handler = (event, context, callback) => {
     })
     .then(slackHelper.getChannelsWithToken)
     .then(channels => {
-      const player1ChannelPrefix = `${tier.numeral}${body.player1.challonge_division_name.toLowerCase()}`;
-      const player1Channel = channels.find(c => c.name.toLowerCase().startsWith(player1ChannelPrefix));
-      const player2ChannelPrefix = `${tier.numeral}${body.player2.challonge_division_name.toLowerCase()}`;
-      const player2Channel = channels.find(c => c.name.toLowerCase().startsWith(player2ChannelPrefix));
+      const player1Channel = findPlayerChannel(body.player1, tier.numeral, channels);
+      const player2Channel = findPlayerChannel(body.player2, tier.numeral, channels);
       if (!player1Channel && !player2Channel) {
-        const msg = `could not find channels matching ${player1ChannelPrefix} or ${player2ChannelPrefix}`;
-        console.log(`escrow-notify: ${msg}`);
-        throw new Error({ statusCode: 400, body: msg });
+        console.log(`escrow-notify: no match for either player`);
+        throw new Error('could not find channel for either player tier/division');
       }
       const playerChannelIds = [];
       if (player1Channel) playerChannelIds.push(player1Channel.id);
