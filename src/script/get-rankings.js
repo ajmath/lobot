@@ -10,9 +10,13 @@ commands.respondWithDivisionStandings({
   },
   payload: {
     event: {
-      channel: 'C3U5JCBP1'
+      channel: process.env.CHANNEL_ID
     }
   },
   reply: (msg) => console.log(msg.text)
-}).then(() => process.exit(0));
+}).then(() => process.exit(0))
+.catch(err => {
+  console.log('fatal error: ', err);
+  process.exit(1);
+});
 setInterval(() => {}, 1000);
