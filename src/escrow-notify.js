@@ -7,6 +7,8 @@ const slackHelper = require('./slack-helper');
 
 const teamId = process.env.TEAM_ID;
 
+const testingChannelId = process.env.TEST_CHANNEL_ID;
+
 const validPlayerRecord = (player) => player.name && player.list && player.challonge_division_name;
 
 const tiers = {
@@ -86,6 +88,7 @@ module.exports.handler = (event, context, callback) => {
       const msg = `:tada: *Escrow notification* :tada: ${body.player1.name} vs ${body.player2.name}\n` +
         `*${body.player1.name}*: ${body.player1.list}\n` +
         `*${body.player2.name}*: ${body.player2.list}\n`;
+      playerChannelIds.push('C418T5YTC');// Add lobot-testing channel
       const web = new WebClient(token);
       return Promise.all(playerChannelIds.map(channelId => {
         return new Promise((resolve, reject) => {

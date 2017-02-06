@@ -72,6 +72,7 @@ provider:
     TEAM_ID: ${self:custom.stage_vars.team_id}
     CURRENT_LEAGUE_ID: ${self:custom.stage_vars.current_league_id}
     TABLE_NAME: ${self:custom.stage_vars.slack_table_name}
+    TEST_CHANNEL_ID: ${self:custom.stage_vars.testing_channel_id}
 
 
 functions:
