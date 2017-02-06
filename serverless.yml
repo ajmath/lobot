@@ -128,7 +128,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:custom.slack_table_name}
+        TableName: ${self:custom.stage_vars.slack_table_name}
 
 package:
   exclude:
