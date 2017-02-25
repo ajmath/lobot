@@ -85,12 +85,14 @@ module.exports.handler = (event, context, callback) => {
         playerChannelIds.push(player2Channel.id);
       }
 
-      const msg = `:crit: *Escrow notification* :crit: ${body.player1.name} vs ${body.player2.name}\n` +
+      let msg = `:crit: *Escrow notification* :crit: ${body.player1.name} vs ${body.player2.name}\n` +
         `:hit: *<${body.player1.list}|${body.player1.name}>* :hit:\n` +
         `${body.player1.pretty_print}\n\n` +
         `:hit: *<${body.player2.list}|${body.player2.name}>* :hit:\n` +
-        `${body.player2.pretty_print}\n\n` +
-        `Scheduled for ${body.scheduled_datetime}\n\n`;
+        `${body.player2.pretty_print}\n\n`;
+      if (body.scheduled_datetime) {
+        msg += `Scheduled for ${body.scheduled_datetime}\n\n`;
+      }
       playerChannelIds.push('C418T5YTC');// Add lobot-testing channel
       const web = new WebClient(token);
       return Promise.all(playerChannelIds.map(channelId => {
