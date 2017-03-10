@@ -31,6 +31,7 @@ module.exports.respondWithGroupStandings = (bot, msg) => {
       });
     })
     .catch(err => {
+      console.error('Fatal error requesting group standings', err);
       bot.reply({
         text: `:interrobang: ${err}`
       });
@@ -63,6 +64,7 @@ module.exports.respondWithTierStandings = (bot, msg) => {
       });
     })
     .catch(err => {
+      console.error('Fatal error requesting tier standings', err);
       bot.reply({
         text: `:interrobang: ${err}`
       });
