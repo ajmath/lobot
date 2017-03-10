@@ -1,16 +1,16 @@
 {
   "player2": {
     "pretty_print": "Outer Rim Smuggler\nOuter Rim Smuggler\nOuter Rim Smuggler\nGreen Squadron Pilot\n(100)",
-    "challonge_division_name": "Mustafar",
+    "challonge_division_name": "Akiva",
     "list": "https://geordanr.github.io/xwing/?f=Rebel%20Alliance&d=v4!s!33:-1,-1:-1:-1:;33:-1,-1:-1:-1:;33:-1,-1:-1:-1:;31:-1,-1:-1:-1:&sn=Unnamed%20Squadron",
-    "name": "pauldavis84"
+    "name": "ernie"
   },
   "player1": {
     "pretty_print": "Dark Curse\nOmicron Group Pilot\nOmicron Group Pilot\nOmicron Group Pilot\nOmicron Group Pilot\n(100)",
-    "challonge_division_name": "Mustafar",
+    "challonge_division_name": "Akiva",
     "list": "https://geordanr.github.io/xwing/?f=Galactic%20Empire&d=v4!s!56:-1,-1,-1,-1:-1:-1:;56:-1,-1,-1,-1:-1:-1:;56:-1,-1,-1,-1:-1:-1:;56:-1,-1,-1,-1:-1:-1:;16::-1:-1:&sn=Unnamed%20Squadron",
-    "name": "drteeth"
+    "name": "bert"
   },
-  "tier_name": "Unknown Reaches",
+  "tier_name": "Lobot Testing",
   "scheduled_datetime": "2/25/17 19:00 PST"
 }

@@ -26,7 +26,19 @@ const tiers = {
   },
   'Unknown Reaches': {
     numeral: 5
+  },
+  'Lobot Testing': {
+    numeral: 9
   }
+};
+
+const findTierChannel = (tier, channels) => {
+  const channelRegex = new RegExp(`${tier}_[a-z]*`);
+  const channel = channels.find(c => c.name.match(channelRegex));
+  if (!channel) {
+    console.log(`escrow-notify: could not find channel matching ${channelRegex}`);
+  }
+  return channel;
 };
 
 const findPlayerChannel = (player, tier, channels) => {
@@ -80,20 +92,25 @@ module.exports.handler = (event, context, callback) => {
         throw new Error('could not find channel for either player tier/division');
       }
       const playerChannelIds = [];
-      if (player1Channel) playerChannelIds.push(player1Channel.id);
-      if (player2Channel && player2Channel.id !== player1Channel.id) {
+      if (player1Channel) {
+        playerChannelIds.push(player1Channel.id);
+      }
+      const isInterdivisional = player2Channel && player2Channel.id !== player1Channel.id;
+      if (isInterdivisional) {
+        const tierChannel = findTierChannel(tier.numeral, channels);
+        playerChannelIds.push(tierChannel.id);
         playerChannelIds.push(player2Channel.id);
       }
 
-      let msg = `:crit: *Escrow notification* :crit: ${body.player1.name} vs ${body.player2.name}\n` +
-        `:hit: *<${body.player1.list}|${body.player1.name}>* :hit:\n` +
+      let msg = `*${isInterdivisional ? 'Inter-divisional e' : 'E'}scrow notification* \n` +
+        `:hit: *<${body.player1.list}|${body.player1.name} (${body.player1.challonge_division_name})>* :hit:\n` +
         `${body.player1.pretty_print}\n\n` +
-        `:hit: *<${body.player2.list}|${body.player2.name}>* :hit:\n` +
+        `:hit: *<${body.player2.list}|${body.player2.name} (${body.player1.challonge_division_name})>* :hit:\n` +
         `${body.player2.pretty_print}\n\n`;
       if (body.scheduled_datetime) {
         msg += `Scheduled for ${body.scheduled_datetime}\n\n`;
       }
-      playerChannelIds.push('C418T5YTC');// Add lobot-testing channel
+      playerChannelIds.push(testingChannelId);// Add lobot-testing channel
       const web = new WebClient(token);
       return Promise.all(playerChannelIds.map(channelId => {
         return new Promise((resolve, reject) => {
