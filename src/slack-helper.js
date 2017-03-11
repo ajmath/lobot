@@ -19,7 +19,7 @@ const getChannelName = (bot) => {
 const getChannelsWithToken = (token) => {
   const web = new WebClient(token);
   return new Promise((resolve, reject) => {
-    web.channels.list((err, info) => {
+    web.channels.list(true, (err, info) => {
       if (err) {
         console.log('Error getting channel list:', err);
         return reject(err);
