@@ -2,14 +2,11 @@
 
 const WebClient = require('@slack/client').WebClient;
 const db = require('serverless-slack/src/dynamo');
-
 const slackHelper = require('./slack-helper');
+const listPrinter = require('./r2d7/listprinter');
 
 const teamId = process.env.TEAM_ID;
-
 const testingChannelId = process.env.TEST_CHANNEL_ID;
-
-const validPlayerRecord = (player) => player.name && player.list && player.challonge_division_name;
 
 const tiers = {
   'Deep Core': {
@@ -32,6 +29,8 @@ const tiers = {
   }
 };
 
+const validPlayerRecord = (player) => player.name && player.list && player.challonge_division_name;
+
 const findTierChannel = (tier, channels) => {
   const channelRegex = new RegExp(`${tier}_[a-z]*`);
   const channel = channels.find(c => c.name.match(channelRegex));
@@ -49,6 +48,16 @@ const findPlayerChannel = (player, tier, channels) => {
     console.log(`escrow-notify: could not find channel matching ${channelRegex}`);
   }
   return channel;
+};
+
+const getPlayerListLines = (isInterdivisional, player) => {
+  const lines = listPrinter.printXws(player.list, player.xws);
+  lines[0] = `*|* ${lines[0]}`;
+  if (isInterdivisional) {
+    lines[0] = `(${player.challonge_division_name}) *|* ${lines[0]}`;
+  }
+  lines[0] = `*${player.name}* ${lines[0]}`;
+  return lines;
 };
 
 module.exports.handler = (event, context, callback) => {
@@ -91,10 +100,7 @@ module.exports.handler = (event, context, callback) => {
         console.log(`escrow-notify: no match for either player`);
         throw new Error('could not find channel for either player tier/division');
       }
-      const playerChannelIds = [];
-      if (player1Channel) {
-        playerChannelIds.push(player1Channel.id);
-      }
+      const playerChannelIds = [testingChannelId, player1Channel.id].filter(c => c);
       const isInterdivisional = player2Channel && player2Channel.id !== player1Channel.id;
       if (isInterdivisional) {
         const tierChannel = findTierChannel(tier.numeral, channels);
@@ -102,15 +108,14 @@ module.exports.handler = (event, context, callback) => {
         playerChannelIds.push(player2Channel.id);
       }
 
-      let msg = `*${isInterdivisional ? 'Inter-divisional e' : 'E'}scrow notification* \n` +
-        `:hit: *<${body.player1.list}|${body.player1.name} (${body.player1.challonge_division_name})>* :hit:\n` +
-        `${body.player1.pretty_print}\n\n` +
-        `:hit: *<${body.player2.list}|${body.player2.name} (${body.player1.challonge_division_name})>* :hit:\n` +
-        `${body.player2.pretty_print}\n\n`;
+      let msgLines = [`*${isInterdivisional ? 'Inter-divisional e' : 'E'}scrow notification*`];
+      msgLines = msgLines.concat(getPlayerListLines(isInterdivisional, body.player1));
+      msgLines.push("\nvs.\n")
+      msgLines = msgLines.concat(getPlayerListLines(isInterdivisional, body.player2));
       if (body.scheduled_datetime) {
-        msg += `Scheduled for ${body.scheduled_datetime}\n\n`;
+        msgLines.push(`\nScheduled for ${body.scheduled_datetime}\n`);
       }
-      playerChannelIds.push(testingChannelId);// Add lobot-testing channel
+      const msg = msgLines.join('\n');
       const web = new WebClient(token);
       return Promise.all(playerChannelIds.map(channelId => {
         return new Promise((resolve, reject) => {

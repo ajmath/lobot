@@ -134,5 +134,6 @@ resources:
 
 package:
   exclude:
+    - node_modules/xwing-data/images/**
     - env/
     - .git/**
