@@ -1471,7 +1471,3 @@ xmlbuilder@2.6.2, xmlbuilder@>=2.4.6:
 xtend@^4.0.0, xtend@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
-
-xwing-data@^0.30.0:
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/xwing-data/-/xwing-data-0.30.0.tgz#48c2e4a66c444586fb32185c1aa7270b7314ec5d"

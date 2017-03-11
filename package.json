@@ -30,8 +30,7 @@
     "axios": "^0.15.3",
     "capitalize": "^1.0.0",
     "cli-table": "https://github.com/ajmath/cli-table/tarball/disable-color",
-    "serverless-slack": "^1.0.25",
-    "xwing-data": "^0.30.0"
+    "serverless-slack": "^1.0.25"
   },
   "devDependencies": {
     "semistandard": "^9.2.1",

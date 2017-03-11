@@ -1,7 +1,7 @@
 "use strict";
 
-const xwsPilots = require('xwing-data/data/pilots');
-const xwsUpgrades = require('xwing-data/data/upgrades');
+const xwsPilots = require('./data/pilots');
+const xwsUpgrades = require('./data/upgrades');
 
 class DataLoader {
   constructor () {
