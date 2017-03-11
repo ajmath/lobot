@@ -54,7 +54,7 @@ const getPlayerListLines = (isInterdivisional, player) => {
   const lines = listPrinter.printXws(player.list, player.xws);
   lines[0] = `*|* ${lines[0]}`;
   if (isInterdivisional) {
-    lines[0] = `(${player.challonge_division_name}) *|* ${lines[0]}`;
+    lines[0] = `(${player.challonge_division_name}) ${lines[0]}`;
   }
   lines[0] = `*${player.name}* ${lines[0]}`;
   return lines;
