@@ -29,7 +29,7 @@ const tiers = {
   }
 };
 
-const validPlayerRecord = (player) => player.name && player.list && player.challonge_division_name;
+const validPlayerRecord = (player) => player && player.name && player.list && player.challonge_division_name;
 
 const findTierChannel = (tier, channels) => {
   const channelRegex = new RegExp(`${tier}_[a-z]*`);
@@ -86,6 +86,9 @@ module.exports.handler = (event, context, callback) => {
     });
   }
 
+  console.log(`Escrow notif for ${body.tier_name}: ${body.player1.name} (${body.player1.challonge_division_name}) `
+    + `vs ${body.player2.name} (${body.player2.challonge_division_name})`);
+
   let token;
   db.get(teamId)
     .then(r => {
@@ -107,6 +110,7 @@ module.exports.handler = (event, context, callback) => {
         playerChannelIds.push(tierChannel.id);
         playerChannelIds.push(player2Channel.id);
       }
+
 
       let msgLines = [`*${isInterdivisional ? 'Inter-divisional e' : 'E'}scrow notification*`];
       msgLines = msgLines.concat(getPlayerListLines(isInterdivisional, body.player1));
