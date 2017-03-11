@@ -3,3 +3,4 @@ node_modules/
 .serverless/
 env/dev.yml
 env/prod.yml
+.idea/workspace.xml
