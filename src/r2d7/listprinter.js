@@ -42,7 +42,7 @@ module.exports.printXws = (listUrl, list) => {
       if ((upgrade.slot.toLowerCase() === 'system') && tiex1) {
         points -= Math.min(4, upgrade.points);
       }
-      let upgradeLink = utils.wikiLink(upgrade.name, dataLoader.isAPilot(upgrade.name));
+      let upgradeLink = utils.wikiLink(upgrade.name, dataLoader.isAPilot(upgrade.xws));
       if (upgrade.name === 'Adaptability') {
         upgradeLink += ':skill_1:';
       }
