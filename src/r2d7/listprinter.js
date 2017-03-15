@@ -5,7 +5,7 @@ const dataLoader = require('../xwing-data-loader');
 
 module.exports.printXws = (listUrl, list) => {
   console.log('printing list: ' + listUrl);
-  listUrl = utils.makeLink(listUrl, list.name || 'Nameless Squadron');
+  listUrl = utils.makeLink(listUrl, list.name || 'View in squad builder');
   const factionEmoji = utils.factionToEmoji(list.faction);
   let output = [`${listUrl} :${factionEmoji}:`];
   let totalPoints = 0;
