@@ -10,10 +10,14 @@ module.exports.printXws = (listUrl, list) => {
   let output = [`${listUrl} :${factionEmoji}:`];
   let totalPoints = 0;
   for (let pilot of Array.from(list.pilots)) {
-    const pilotCard = dataLoader.getPilot(list.faction, pilot.ship, pilot.name);
+    let pilotCard = dataLoader.getPilot(list.faction, pilot.ship, pilot.name);
     if (!pilotCard) {
       console.log(`Unable to load pilot card ${list.faction}/${pilot.ship}/${pilot.name}`);
-      continue;
+      pilotCard = {
+        points: 0,
+        skill: 0,
+        name: `?${list.faction}/${pilot.ship}/${pilot.name}?`
+      };
     }
 
     let points = pilotCard.points;
