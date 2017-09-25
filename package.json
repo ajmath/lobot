@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "semistandard": "^9.2.1",
+    "serverless": "^1.23.0",
     "snazzy": "^6.0.0"
   }
 }
