@@ -35,7 +35,7 @@ const debug = (parts, msg, bot) => {
 const help = (parts, msg, bot) => {
   bot.reply({
     text: 'How can I be of service to you?\n' +
-      ' * `group|division` - provide group/division standings based on this channel name\n' +
+      ' * `standings|group|division` - provide group/division standings based on this channel name\n' +
       ' * `tier` - provide division standings based on this channel name\n' +
       'To run any of these commands, simply type `@lobot <command>`'
   });
@@ -63,6 +63,8 @@ slack.on('message', (msg, bot) => {
   let cmd = parts[1];
   if (cmd === 'help') {
     help(parts, msg, bot);
+  } else if (cmd === 'standings') {
+    commands.respondWithStandings(bot, msg);
   } else if (cmd === 'division' || cmd === 'group') {
     commands.respondWithGroupStandings(bot, msg);
   } else if (cmd === 'tier') {

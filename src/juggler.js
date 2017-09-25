@@ -4,7 +4,8 @@ const axios = require('axios');
 
 const juggler = 'http://lists.starwarsclubhouse.com/api/v1';
 const currentLeagueId = process.env.CURRENT_LEAGUE_ID;
-const validChannelNameRegex = /^[1-5][a-m]-[a-z]*$/;
+const validDivisionChannelNameRegex = /^[1-5][a-v]-[a-z]*$/;
+const validTierChannelNameRegex = /^[1-5]_[a-z]*$/;
 
 const leagueTierDivisionIds = {
   '5': {
@@ -31,17 +32,21 @@ const leagueTierDivisionIds = {
 };
 
 const parseChannelInfo = (channelName) => {
-  if (!channelName || channelName.match(validChannelNameRegex) === null) {
-    throw new Error(`invalid channel name: ${channelName}`);
+  if (channelName && channelName.match(validDivisionChannelNameRegex)) {
+    const channelTierDivision = channelName.split('-')[0];
+    return {
+      tier: channelTierDivision[0],
+      division: channelTierDivision[1].toUpperCase()
+    };
+  } else if (channelName && channelName.match(validTierChannelNameRegex)) {
+    const tier = channelName.split('_')[0];
+    return {
+      tier,
+      division: 'ALL'
+    };
+  } else {
+    throw new Error(`Cannot parse leage info from channel name '${channelName}'`);
   }
-  const channelTierDivision = channelName.split('-')[0];
-  const channelTier = channelTierDivision[0];
-  const channelDivision = channelTierDivision[1].toUpperCase();
-
-  return {
-    tier: channelTier,
-    division: channelDivision
-  };
 };
 
 const jugglerTierForSlackTier = (channelTier) => {
@@ -50,6 +55,7 @@ const jugglerTierForSlackTier = (channelTier) => {
   }
   throw new Error(`unsupported league/tier ${currentLeagueId}/${channelTier}`);
 };
+module.exports.parseChannelInfo = parseChannelInfo;
 
 module.exports.tierRankingsForChannel = (channelName) => {
   const channelInfo = parseChannelInfo(channelName);

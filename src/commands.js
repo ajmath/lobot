@@ -5,12 +5,23 @@ const Table = require('cli-table');
 const slackHelper = require('./slack-helper.js');
 const juggler = require('./juggler.js');
 
+module.exports.respondWithStandings = (bot, msg) => {
+  return slackHelper.getChannelName(bot)
+    .then(channelName => {
+      const channelInfo = juggler.parseChannelInfo(channelName);
+      if (channelInfo.division === 'ALL') {
+        return module.exports.respondWithTierStandings(bot, msg);
+      }
+      return module.exports.respondWithGroupStandings(bot, msg);
+    });
+};
+
 module.exports.respondWithGroupStandings = (bot, msg) => {
   return slackHelper.getChannelName(bot)
     .then(juggler.tierRankingsForChannel)
     .then(rankings => {
       const division = rankings.division_ranking
-        .find(r => r.division_name === rankings.channel_info.division);
+        .find(r => r.division_letter === rankings.channel_info.division);
       if (!division) {
         throw new Error(`could not find division: ${rankings.channel_info.division}`);
       }
