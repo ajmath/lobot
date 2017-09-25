@@ -65,6 +65,7 @@ module.exports.handler = (event, context, callback) => {
   try {
     body = JSON.parse(event.body);
   } catch (e) {
+    console.error('Invalid post body', event.body);
     return callback(null, {
       statusCode: 400,
       body: 'invalid post body'
@@ -72,6 +73,7 @@ module.exports.handler = (event, context, callback) => {
   }
 
   if (!body.tier_name || !validPlayerRecord(body.player1) || !validPlayerRecord(body.player1)) {
+    console.error('Invalid post body', event.body);
     return callback(null, {
       statusCode: 400,
       body: 'invalid post body'
@@ -80,14 +82,15 @@ module.exports.handler = (event, context, callback) => {
 
   const tier = tiers[body.tier_name];
   if (!tier) {
+    console.error(`uknown tier name ${body.tier_name}`, event.body);
     return callback(null, {
       statusCode: 400,
       body: `uknown tier name ${body.tier_name}`
     });
   }
 
-  console.log(`Escrow notif for ${body.tier_name}: ${body.player1.name} (${body.player1.division_name}) `
-    + `vs ${body.player2.name} (${body.player2.division_name})`);
+  console.log(`Escrow notif for ${body.tier_name}: ${body.player1.name} (${body.player1.division_name}) ` +
+    `vs ${body.player2.name} (${body.player2.division_name})`);
 
   let token;
   db.get(teamId)
@@ -111,10 +114,9 @@ module.exports.handler = (event, context, callback) => {
         playerChannelIds.push(player2Channel.id);
       }
 
-
       let msgLines = [`*${isInterdivisional ? 'Inter-divisional e' : 'E'}scrow notification*`];
       msgLines = msgLines.concat(getPlayerListLines(isInterdivisional, body.player1));
-      msgLines.push("\nvs.\n")
+      msgLines.push('\nvs.\n');
       msgLines = msgLines.concat(getPlayerListLines(isInterdivisional, body.player2));
       if (body.scheduled_datetime) {
         msgLines.push(`\nScheduled for ${body.scheduled_datetime}\n`);
