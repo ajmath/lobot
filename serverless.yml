@@ -69,7 +69,6 @@ provider:
     CLIENT_ID: ${self:custom.stage_vars.slack_client_id}
     CLIENT_SECRET: ${self:custom.stage_vars.slack_client_secret}
     VERIFICATION_TOKEN: ${self:custom.stage_vars.slack_verification_token}
-    CHALLONGE_TOKEN: ${self:custom.stage_vars.challonge_token}
     TEAM_ID: ${self:custom.stage_vars.team_id}
     CURRENT_LEAGUE_ID: ${self:custom.stage_vars.current_league_id}
     TABLE_NAME: ${self:custom.stage_vars.slack_table_name}

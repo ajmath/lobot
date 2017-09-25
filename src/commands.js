@@ -10,7 +10,7 @@ module.exports.respondWithGroupStandings = (bot, msg) => {
     .then(juggler.tierRankingsForChannel)
     .then(rankings => {
       const division = rankings.division_ranking
-        .find(r => r.division_challonge_name === rankings.channel_info.division);
+        .find(r => r.division_name === rankings.channel_info.division);
       if (!division) {
         throw new Error(`could not find division: ${rankings.channel_info.division}`);
       }
@@ -56,7 +56,7 @@ module.exports.respondWithTierStandings = (bot, msg) => {
           r.losses,
           r.draws,
           r.mov,
-          `${division.division_name} (${division.division_challonge_name})`
+          `${division.division_name} (${division.division_letter})`
         ]);
       });
       bot.reply({

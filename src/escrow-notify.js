@@ -29,7 +29,7 @@ const tiers = {
   }
 };
 
-const validPlayerRecord = (player) => player && player.name && player.list && player.challonge_division_name;
+const validPlayerRecord = (player) => player && player.name && player.list && player.division_name;
 
 const findTierChannel = (tier, channels) => {
   const channelRegex = new RegExp(`${tier}_[a-z]*`);
@@ -41,7 +41,7 @@ const findTierChannel = (tier, channels) => {
 };
 
 const findPlayerChannel = (player, tier, channels) => {
-  const cleanDivision = player.challonge_division_name.replace(' ', '').toLowerCase();
+  const cleanDivision = player.division_name.replace(' ', '').toLowerCase();
   const channelRegex = new RegExp(`${tier}[a-z]-${cleanDivision}`);
   const channel = channels.find(c => c.name.match(channelRegex));
   if (!channel) {
@@ -54,7 +54,7 @@ const getPlayerListLines = (isInterdivisional, player) => {
   const lines = listPrinter.printXws(player.list, player.xws);
   lines[0] = `*|* ${lines[0]}`;
   if (isInterdivisional) {
-    lines[0] = `(${player.challonge_division_name}) ${lines[0]}`;
+    lines[0] = `(${player.division_name}) ${lines[0]}`;
   }
   lines[0] = `*${player.name}* ${lines[0]}`;
   return lines;
@@ -86,8 +86,8 @@ module.exports.handler = (event, context, callback) => {
     });
   }
 
-  console.log(`Escrow notif for ${body.tier_name}: ${body.player1.name} (${body.player1.challonge_division_name}) `
-    + `vs ${body.player2.name} (${body.player2.challonge_division_name})`);
+  console.log(`Escrow notif for ${body.tier_name}: ${body.player1.name} (${body.player1.division_name}) `
+    + `vs ${body.player2.name} (${body.player2.division_name})`);
 
   let token;
   db.get(teamId)
