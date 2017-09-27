@@ -1,10 +1,9 @@
 'use strict';
 
-// const matchScheduled = require('./match-scheduled');
+const matchScheduled = require('./match-scheduled');
 const juggler = require('./juggler');
 const slackHelper = require('./slack-helper');
 const listPrinter = require('./r2d7/listprinter');
-const moment = require('moment');
 
 const validPlayerRecord = (player) => player && player.name && player.list && player.division_name;
 
@@ -16,21 +15,6 @@ const getPlayerListLines = (isInterdivisional, player) => {
   }
   lines[0] = `*${player.name}* ${lines[0]}`;
   return lines;
-};
-
-const idealNotificationTime = 15;
-const postScheduledGameReminder = (channel, player1Name, player2Name, startTimeStr) => {
-  // TODO: Move to match-scheduled
-  // Example: 28-09-2017 09:00 PM EDT-0400
-  const startTime = moment(startTimeStr, 'DD-MM-YYY hh:mm a Z');
-  if (startTime.isBefore(moment())) {
-    return;
-  }
-  const notificationTime = startTime.subtract(idealNotificationTime, 'minutes');
-  const secondsTilStart = notificationTime.unix() - moment().unix();
-  const msg = `${channel.name} Scheduled match between ${player1Name} and ${player2Name}` +
-    `starting in 15 minutes in ${secondsTilStart} seconds`;
-  return slackHelper.postCommandToChannel(channel, '/remind', msg);
 };
 
 module.exports.handler = (event, context, callback) => {
@@ -63,23 +47,18 @@ module.exports.handler = (event, context, callback) => {
       msgLines = msgLines.concat(getPlayerListLines(isInterdivisional, body.player1));
       msgLines.push('\nvs.\n');
       msgLines = msgLines.concat(getPlayerListLines(isInterdivisional, body.player2));
-      if (body.scheduled_datetime) {
-        msgLines.push(`\nScheduled for ${body.scheduled_datetime}\n`);
-      }
       const msg = msgLines.join('\n');
       return Promise.all(channels.map(channel => {
         return slackHelper.postMessageToChannel(channel, msg);
-      })).then(() => channels);
+      }));
     })
     .then(channels => {
       if (!body.scheduled_datetime) {
         return channels;
       }
       return Promise.all(channels.map(channel => {
-        return postScheduledGameReminder(
+        return matchScheduled.postScheduledGameMessage(
           channel,
-          body.player1.name,
-          body.player2.name,
           body.scheduled_datetime
         );
       }));
@@ -96,10 +75,11 @@ module.exports.handler = (event, context, callback) => {
       }
     })
     .then((channels) => {
-      console.log('sent message to channels', channels);
+      const channelNames = channels.filter(c => c).map(c => c.name);
+      console.log('sent message to channels', channelNames);
       const response = {
         statusCode: 200,
-        body: `posted to channels ${JSON.stringify(channels)}`
+        body: `posted to channels ${JSON.stringify(channelNames)}`
       };
       callback(null, response);
     });

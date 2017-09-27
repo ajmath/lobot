@@ -4,6 +4,7 @@ const WebClient = require('@slack/client').WebClient;
 const db = require('serverless-slack/src/dynamo');
 
 const teamId = process.env.TEAM_ID;
+const remindersToken = process.env.REMINDERS_TOKEN;
 
 let webClient;
 const getWebClient = () => {
@@ -19,7 +20,7 @@ const getWebClient = () => {
 let channels;
 const getChannels = () => {
   if (channels) {
-    return channels;
+    return Promise.resolve(channels);
   }
   return getWebClient().then(web => {
     return new Promise((resolve, reject) => {
@@ -46,11 +47,11 @@ const getChannelName = (bot) => {
     });
 };
 
-const postMessageToChannel = (channel, msg) => {
+const postMessageToChannel = (channel, msg, opts = null) => {
   return getWebClient()
     .then(web => {
       return new Promise((resolve, reject) => {
-        web.chat.postMessage(channel.id, msg, (err, info) => {
+        web.chat.postMessage(channel.id, msg, opts, (err, info) => {
           if (err) {
             console.log(`error posting to slack channel ${channel}`, err);
             return reject(`error posting to slack channel ${channel}`);
@@ -61,31 +62,28 @@ const postMessageToChannel = (channel, msg) => {
     });
 };
 
-const postCommandToChannel = (channel, command, msg) => {
-  const payload = {
-    channel: channel.id,
-    command,
-    text: msg
-  };
-  return getWebClient()
-    .then(web => {
-      return new Promise((resolve, reject) => {
-        console.log(`Posting command ${command} ${JSON.stringify(payload)} to channel ${channel}`);
-        return web.chat.command(payload, (err, info) => {
-          if (err) {
-            console.log(`error posting command to slack channel ${channel}`, err);
-            return reject(`error posting command to slack channel ${channel}`);
-          }
-          return resolve(channel);
-        });
-      });
+/**
+ * Does not work at all
+ **/
+const postReminder = (text, unixTimestamp, channel) => {
+  const web = new WebClient(remindersToken);
+  return new Promise((resolve, reject) => {
+    const opts = { user: `#${channel.name}` };
+    web.reminders.add(text, unixTimestamp, opts, (err, info) => {
+      if (err) {
+        console.log(`error adding slack reminder ${text} ${channel.name}`, err);
+        return reject(`error adding slack reminder ${text} ${channel.name}`);
+      }
+      console.log('Response from reminders.add', info);
+      return resolve(channel);
     });
+  });
 };
 
 module.exports = {
-  getChannelName: getChannelName,
-  getChannels: getChannels,
-  getWebClient: getWebClient,
+  getChannelName,
+  getChannels,
+  getWebClient,
   postMessageToChannel,
-  postCommandToChannel
+  postReminder
 };

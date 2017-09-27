@@ -2,7 +2,6 @@
 
 // Include the serverless-slack bot framework
 const slack = require('serverless-slack');
-const slackHelper = require('./slack-helper.js');
 const commands = require('./commands.js');
 
 module.exports.handler = slack.handler.bind(slack);
@@ -22,14 +21,6 @@ const debug = (parts, msg, bot) => {
       JSON.stringify(bot, null, 2) + '\n' +
       '```\n'
   });
-  const replyWithChannelName = (name) => {
-    bot.reply({
-      text: `channel name is ${name}`
-    });
-  };
-  slackHelper.getChannelName(bot)
-    .then(replyWithChannelName)
-    .catch(replyWithChannelName);
 };
 
 const help = (parts, msg, bot) => {

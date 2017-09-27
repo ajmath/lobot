@@ -35,7 +35,7 @@ custom:
   slack_install_path: slack
 
   # Space delimited scopes
-  slack_client_scopes: "bot commands incoming-webhook"
+  slack_client_scopes: "bot chat:write:bot"
 
   # The path to redirect to after an install
   slack_install_redirect: https://slack.com
@@ -47,7 +47,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs4.3
+  runtime: nodejs6.10
   stage: dev
   cfLogs: true
   iamRoleStatements:
@@ -72,7 +72,8 @@ provider:
     CURRENT_LEAGUE_ID: ${self:custom.stage_vars.current_league_id}
     TABLE_NAME: ${self:custom.stage_vars.slack_table_name}
     TEST_CHANNEL_ID: ${self:custom.stage_vars.testing_channel_id}
-    TEST_CHANNEL_NAME: ${self:custom.stage_vars.testing_channel_id}
+    TEST_CHANNEL_NAME: ${self:custom.stage_vars.testing_channel_name}
+    REMINDERS_TOKEN: ${self:custom.stage_vars.reminders_token}
 
 
 functions:
