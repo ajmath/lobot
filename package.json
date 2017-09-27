@@ -30,6 +30,7 @@
     "axios": "^0.15.3",
     "capitalize": "^1.0.0",
     "cli-table": "https://github.com/ajmath/cli-table/tarball/disable-color",
+    "moment": "^2.18.1",
     "serverless-slack": "^1.0.25"
   },
   "devDependencies": {

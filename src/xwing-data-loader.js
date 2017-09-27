@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const xwsPilots = require('./data/pilots');
 const xwsUpgrades = require('./data/upgrades');

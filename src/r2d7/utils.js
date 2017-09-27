@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const capitalize = require('capitalize');
 const canonicalize = require('../xwing-data-loader')._canonicalize;
