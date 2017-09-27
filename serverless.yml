@@ -72,6 +72,7 @@ provider:
     CURRENT_LEAGUE_ID: ${self:custom.stage_vars.current_league_id}
     TABLE_NAME: ${self:custom.stage_vars.slack_table_name}
     TEST_CHANNEL_ID: ${self:custom.stage_vars.testing_channel_id}
+    TEST_CHANNEL_NAME: ${self:custom.stage_vars.testing_channel_id}
 
 
 functions:
@@ -110,6 +111,11 @@ functions:
     handler: src/escrow-notify.handler
     events:
       - http: POST escrow-notify
+
+  match_scheduled:
+    handler: src/match-scheduled.handler
+    events:
+      - http: POST match-scheduled
 
 resources:
   Resources:

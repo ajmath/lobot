@@ -6,3 +6,4 @@
   current_league_id: "6" # for queries to list juggler
   slack_table_name: "Teams" # should be different for each stage in a single AWS environment
   testing_channel_id: ""
+  testing_channel_name: "lobot-testing"
