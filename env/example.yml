@@ -7,3 +7,4 @@
   slack_table_name: "Teams" # should be different for each stage in a single AWS environment
   testing_channel_id: ""
   testing_channel_name: "lobot-testing"
+  reminders_token: ""
