@@ -29,7 +29,7 @@ module.exports.handler = (event, context, callback) => {
     });
   }
 
-  if (!body.tier_name || !validPlayerRecord(body.player1) || !validPlayerRecord(body.player1)) {
+  if (!body.tier_name || !validPlayerRecord(body.player1) || !validPlayerRecord(body.player1) || !body.url) {
     console.error('Invalid post body', event.body);
     return callback(null, {
       statusCode: 400,
@@ -59,7 +59,8 @@ module.exports.handler = (event, context, callback) => {
       return Promise.all(channels.map(channel => {
         return matchScheduled.postScheduledGameMessage(
           channel,
-          body.scheduled_datetime
+          body.scheduled_datetime,
+          body.url
         );
       }));
     })

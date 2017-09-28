@@ -20,11 +20,11 @@ const postScheduledGameReminder = (channel, player1Name, player2Name, startTimeS
   return slackHelper.postReminder(msg, notificationTime.valueOf(), channel);
 };
 
-const postScheduledGameMessage = (channel, startTimeStr, player1Name, player2Name) => {
+const postScheduledGameMessage = (channel, startTimeStr, url, player1Name, player2Name) => {
   const t = parseStartTimeStr(startTimeStr);
   const slackDate = `<!date^${t.unix()}^{date_long_pretty} at {time}|${t.utc().format()}>`;
   const playerInfo = player1Name && player2Name ? ` between ${player1Name} and ${player2Name} ` : ' ';
-  const msg = `Match scheduled${playerInfo}for ${slackDate}`;
+  const msg = `Match scheduled${playerInfo}for ${slackDate} | <${url}|View on List Juggler>`;
   return slackHelper.postMessageToChannel(channel, msg, {
     parse: 'none',
     mrkdwn: false
@@ -64,7 +64,7 @@ const handler = (event, context, callback) => {
     return errorMessage(400, 'Non-JSON post body');
   }
 
-  if (!body.player1 || !body.player2 || !body.scheduled_datetime || !body.tier_name) {
+  if (!body.player1 || !body.player2 || !body.scheduled_datetime || !body.tier_name || !body.url) {
     return errorMessage(400, 'Missing required keys in post body');
   }
 
@@ -75,6 +75,7 @@ const handler = (event, context, callback) => {
         return postScheduledGameMessage(
           channel,
           body.scheduled_datetime,
+          body.url,
           body.player1.name,
           body.player2.name
         );
