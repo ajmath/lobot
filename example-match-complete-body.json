@@ -1,15 +1,17 @@
 {
   "player2": {
     "division_name": "Akiva",
-    "name": "ernie",
-    "points_destroyed": 100
+    "name": "ajmath",
+    "points_destroyed": 80,
+    "mov": 154
   },
   "player1": {
     "division_name": "Mustafar",
-    "name": "bert",
-    "points_destroyed": 99
+    "name": "lobot",
+    "points_destroyed": 34,
+    "mov": 34
   },
   "tier_name": "Lobot Testing",
-  "winner": "ernie",
+  "winner": "ajmath",
   "url": "http://lists.starwarsclubhouse.com/league_match?match_id=7075"
 }
