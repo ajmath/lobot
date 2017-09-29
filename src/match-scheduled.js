@@ -23,7 +23,7 @@ const postScheduledGameReminder = (channel, player1Name, player2Name, startTimeS
 const postScheduledGameMessage = (channel, startTimeStr, url, player1Name, player2Name) => {
   const t = parseStartTimeStr(startTimeStr);
   const slackDate = `<!date^${t.unix()}^{date_long_pretty} at {time}|${t.utc().format()}>`;
-  const playerInfo = player1Name && player2Name ? ` between ${player1Name} and ${player2Name} ` : ' ';
+  const playerInfo = player1Name && player2Name ? ` between <@${player1Name}> and <@${player2Name}> ` : ' ';
   const msg = `Match scheduled${playerInfo}for ${slackDate} | <${url}|View on List Juggler>`;
   return slackHelper.postMessageToChannel(channel, msg, {
     parse: 'none',

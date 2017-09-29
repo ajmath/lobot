@@ -13,7 +13,7 @@ const getPlayerListLines = (isInterdivisional, player) => {
   if (isInterdivisional) {
     lines[0] = `(${player.division_name}) ${lines[0]}`;
   }
-  lines[0] = `*${player.name}* ${lines[0]}`;
+  lines[0] = `<@${player.name}> ${lines[0]}`;
   return lines;
 };
 
