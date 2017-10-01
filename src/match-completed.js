@@ -28,12 +28,12 @@ const postMatchResult = (channel, url, player1, player2, winner) => {
           title: `${player2.name}`,
           value: `${player2.points_destroyed}`,
           short: true
-        },
-        {
-          title: 'Winner',
-          value: winner,
-          short: true
         }
+        // {
+        //   title: 'Winner',
+        //   value: winner,
+        //   short: true
+        // }
       ]
     }]
   });
