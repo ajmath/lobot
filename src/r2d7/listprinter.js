@@ -40,7 +40,7 @@ module.exports.printXws = (listUrl, list) => {
 
     const upgrades = [];
     for (let upgrade of Array.from(cards)) {
-      if (!upgrade.id) {
+      if (upgrade.id === undefined || upgrade.id === null) {
         upgrades.push(`*?${upgrade.slot}/${upgrade.name}?*`);
         continue;
       }
