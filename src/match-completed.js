@@ -14,39 +14,19 @@ const postMatchResult = (channel, url, player1, player2, winner) => {
   return slackHelper.postMessageToChannel(channel, null, {
     attachments: [{
       fallback,
-      color: 'danger',
+      color: 'good',
       title: 'Match result',
       title_link: url,
       text: `<@${player1.name}> vs <@${player2.name}>`,
       fields: [
-        // {
-        //   title: `${player1.name} - Points Destroyed`,
-        //   value: player1.points_destroyed,
-        //   short: true
-        // },
-        // {
-        //   title: `${player1.name} - MoV`,
-        //   value: player1.mov,
-        //   short: true
-        // },
-        // {
-        //   title: `${player2.name} - Points Destroyed`,
-        //   value: player2.points_destroyed,
-        //   short: true
-        // },
-        // {
-        //   title: `${player2.name} - MoV`,
-        //   value: player2.mov,
-        //   short: true
-        // },
         {
-          title: `${player1.name} (mov)`,
-          value: `${player1.points_destroyed} (${player1.mov})`,
+          title: `${player1.name}`,
+          value: `${player1.points_destroyed}`,
           short: true
         },
         {
-          title: `${player2.name} (mov)`,
-          value: `${player2.points_destroyed} (${player2.mov})`,
+          title: `${player2.name}`,
+          value: `${player2.points_destroyed}`,
           short: true
         },
         {
