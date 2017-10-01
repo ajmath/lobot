@@ -30,7 +30,11 @@ module.exports.printXws = (listUrl, list) => {
         if (upgrade === 'tiex1') {
           tiex1 = true;
         }
-        cards.push(dataLoader.getUpgrade(slot, upgrade));
+        const upgradeData = dataLoader.getUpgrade(slot, upgrade);
+        if (!upgradeData || !upgradeData.xws) {
+          console.log(`Unable to load upgrade card ${slot}/${upgrade}`);
+        }
+        cards.push(upgradeData);
       }
     }
 
