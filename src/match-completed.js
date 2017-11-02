@@ -4,13 +4,8 @@ const juggler = require('./juggler');
 const slackHelper = require('./slack-helper');
 
 const postMatchResult = (channel, url, player1, player2, winner) => {
-  let score = `${player1.points_destroyed}-${player2.points_destroyed}`;
-  if (winner === player2.name) {
-    score = `${player2.points_destroyed}-${player1.points_destroyed}`;
-  }
-
-  const fallback = `Match result for @${player1.name} vs @${player2.name} ` +
-    `- ${winner} wins ${score} | <${url}|View on List Juggler>`;
+  const fallback = `Match result for @${player1.name} vs @${player2.name} | ` +
+    `${player1.points_destroyed}-${player2.points_destroyed} | <${url}|View on List Juggler>`;
   return slackHelper.postMessageToChannel(channel, null, {
     attachments: [{
       fallback,
