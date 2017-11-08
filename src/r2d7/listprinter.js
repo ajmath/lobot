@@ -24,12 +24,12 @@ module.exports.printXws = (listUrl, list) => {
     let skill = pilotCard.skill;
     let cards = [];
     let tiex1 = false;
+    let vaksai = false;
 
     for (let slot in pilot.upgrades) {
       for (let upgrade of pilot.upgrades[slot]) {
-        if (upgrade === 'tiex1') {
-          tiex1 = true;
-        }
+        tiex1 = tiex1 || upgrade === 'tiex1';
+        vaksai = vaksai || upgrade === 'vaksai';
         const upgradeData = dataLoader.getUpgrade(slot, upgrade);
         if (!upgradeData || !upgradeData.xws) {
           console.log(`Unable to load upgrade card ${slot}/${upgrade}`);
@@ -55,7 +55,11 @@ module.exports.printXws = (listUrl, list) => {
         upgradeLink += ':skill_1:';
       }
       upgrades.push(upgradeLink);
-      points += upgrade.points;
+      let cost = upgrade.points;
+      if (vaksai && upgrade.points >= 1) {
+        cost--;
+      }
+      points += cost;
     }
 
     output.push(
