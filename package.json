@@ -16,7 +16,8 @@
     "serverless"
   ],
   "scripts": {
-    "lint": "semistandard --verbose | snazzy"
+    "lint": "semistandard --verbose | snazzy",
+    "update-data": "curl https://raw.githubusercontent.com/guidokessels/xwing-data/master/data/pilots.js > src/data/pilots.json && curl https://raw.githubusercontent.com/guidokessels/xwing-data/master/data/upgrades.js > src/data/upgrades.json"
   },
   "repository": {
     "type": "git",
