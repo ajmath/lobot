@@ -41,8 +41,7 @@ const notImplmented = (bot) => {
 // Slash Command handler
 slack.on('message', (msg, bot) => {
   const botId = bot.auth.bot.bot_user_id;
-  if (msg.event.text && !msg.event.text.startsWith(`<@${botId}>`) &&
-    !msg.event.text.startsWith('@lobot ')) {
+  if (msg.event.text && !(msg.event.text.startsWith(`<@${botId}>`) || msg.event.text.startsWith('@lobot '))) {
     return;
   }
 
