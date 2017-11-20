@@ -53,8 +53,7 @@ const postMessageToChannel = (channel, msg, opts = null) => {
       return new Promise((resolve, reject) => {
         web.chat.postMessage(channel.id, msg, opts, (err, info) => {
           if (err) {
-            console.log(`error posting to slack channel ${channel}`, err);
-            return reject(`error posting to slack channel ${channel}`);
+            console.error("error posting to slack channel", channel, err);
           }
           return resolve(channel);
         });
