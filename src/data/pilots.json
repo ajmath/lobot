@@ -4498,7 +4498,8 @@
     "id": 269,
     "conditions": [
       "Rattled"
-    ]
+    ],
+    "image": "pilots/Resistance/B-SF-17 Bomber/crimson-leader.png"
   },
   {
     "image": "pilots/Galactic Empire/Alpha-class Star Wing/nu-squadron-pilot.png",
@@ -4629,5 +4630,152 @@
       "Crew"
     ],
     "id": 277
+  },
+  {
+    "name": "Crimson Squadron Pilot",
+    "xws": "crimsonsquadronpilot",
+    "ship": "B/SF-17 Bomber",
+    "skill": 1,
+    "points": 25,
+    "faction": "Resistance",
+    "slots": [
+      "Bomb",
+      "Bomb",
+      "System",
+      "Tech"
+    ],
+    "id": 278,
+    "image": "pilots/Resistance/B-SF-17 Bomber/crimson-squadron-pilot.png"
+  },
+  {
+    "text": "When placing a bomb token you dropped after revealing your manuever dial, you may place the bomb token anywhere on the play area touching your ship.",
+    "name": "\"Crimson Specialist\"",
+    "xws": "crimsonspecialist",
+    "ship": "B/SF-17 Bomber",
+    "unique": true,
+    "skill": 4,
+    "points": 27,
+    "faction": "Resistance",
+    "slots": [
+      "Bomb",
+      "Bomb",
+      "System",
+      "Tech"
+    ],
+    "id": 279,
+    "image": "pilots/Resistance/B-SF-17 Bomber/crimson-specialist.png"
+  },
+  {
+    "name": "\"Cobalt Leader\"",
+    "xws": "cobaltleader",
+    "text": "When attacking, if the defender is at range 1 of a bomb token, the defender rolls 1 fewer defense die (to a minimum of 0).",
+    "ship": "B/SF-17 Bomber",
+    "unique": true,
+    "skill": 6,
+    "points": 28,
+    "faction": "Resistance",
+    "slots": [
+      "Bomb",
+      "Bomb",
+      "System",
+      "Tech"
+    ],
+    "id": 280,
+    "image": "pilots/Resistance/B-SF-17 Bomber/cobalt-leader.png"
+  },
+  {
+    "image": "pilots/First Order/TIE Silencer/test-pilot-blackout.png",
+    "text": "When attacking, if the attack is obstructed, the defender rolls 2 fewer defense dice (to a minimum of 0).",
+    "name": "Test Pilot \"Blackout\"",
+    "xws": "testpilotblackout",
+    "ship": "TIE Silencer",
+    "unique": true,
+    "skill": 7,
+    "points": 31,
+    "faction": "First Order",
+    "slots": [
+      "Elite",
+      "System",
+      "Tech"
+    ],
+    "id": 281
+  },
+  {
+    "name": "Cartel Executioner",
+    "xws": "cartelexecutioner",
+    "ship": "M12-L Kimogila Fighter",
+    "skill": 5,
+    "points": 24,
+    "faction": "Scum and Villainy",
+    "slots": [
+      "Elite",
+      "Missile",
+      "Torpedo",
+      "Illicit",
+      "Salvaged Astromech"
+    ],
+    "id": 282,
+    "image": "pilots/Scum and Villainy/M12-L Kimogila Fighter/cartel-executioner.png"
+  },
+  {
+    "name": "Sienar-Jaemus Analyst",
+    "xws": "sienarjaemusanalyst",
+    "ship": "TIE Silencer",
+    "skill": 4,
+    "points": 26,
+    "faction": "First Order",
+    "slots": [
+      "System",
+      "Tech"
+    ],
+    "id": 283,
+    "image": "pilots/First Order/TIE Silencer/sienar-jaemus-analyst.png"
+  },
+  {
+    "name": "First Order Test Pilot",
+    "xws": "firstordertestpilot",
+    "ship": "TIE Silencer",
+    "skill": 6,
+    "points": 29,
+    "faction": "First Order",
+    "slots": [
+      "Elite",
+      "System",
+      "Tech"
+    ],
+    "id": 284,
+    "image": "pilots/First Order/TIE Silencer/first-order-test-pilot.png"
+  },
+  {
+    "name": "Kullbee Sperado",
+    "xws": "kullbeesperado",
+    "text": "After you perform a boost or barrel roll action, you may flip your equipped \"Servomotor S-foils\" Upgrade card.",
+    "ship": "X-wing",
+    "unique": true,
+    "skill": 7,
+    "points": 26,
+    "faction": "Rebel Alliance",
+    "slots": [
+      "Astromech",
+      "Elite",
+      "Torpedo"
+    ],
+    "id": 285
+  },
+  {
+    "text": "When attacking, if the defender does not have a focus or evade token, you may change 1 of your blank or [Focus] results to a [Hit] result.",
+    "name": "Major Vermeil",
+    "xws": "majorvermeil",
+    "ship": "TIE Reaper",
+    "unique": true,
+    "skill": 6,
+    "points": 26,
+    "faction": "Galactic Empire",
+    "slots": [
+      "Crew",
+      "Crew",
+      "Elite"
+    ],
+    "id": 286
   }
 ]
