@@ -45,8 +45,6 @@ slack.on('message', (msg, bot) => {
     return;
   }
 
-  console.log(`@lobot`, msg.event);
-
   let parts = msg.event.text.split(' ');
   if (parts.length === 1) {
     return;
