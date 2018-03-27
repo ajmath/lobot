@@ -4,3 +4,5 @@ node_modules/
 env/dev.yml
 env/prod.yml
 .idea/workspace.xml
+yarn-error.log
+
