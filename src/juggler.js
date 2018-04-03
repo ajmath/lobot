@@ -5,7 +5,7 @@ const slackHelper = require('./slack-helper');
 
 const juggler = 'http://lists.starwarsclubhouse.com/api/v1';
 const currentLeagueId = process.env.CURRENT_LEAGUE_ID;
-const validDivisionChannelNameRegex = /^[1-5][a-v]-[a-z]*$/;
+const validDivisionChannelNameRegex = /^[1-5][a-z]-[a-z]*$/;
 const validTierChannelNameRegex = /^[1-5]_[a-z]*$/;
 const testChannel = {
   id: process.env.TEST_CHANNEL_ID,
